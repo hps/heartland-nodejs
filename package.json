@@ -1,0 +1,22 @@
+{
+    "name": "portico-sdk",
+    "version": "0.0.0",
+    "description": "Portico NodeJS SDK",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "mocha -R spec -u exports test/*-test.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://heartlandpaymentsystems.git.beanstalkapp.com/portico-node-js-sdk.git"
+    },
+    "author": "Heartland Payment Systems",
+    "dependencies": {
+        "node-expat": ">=1.6.1",
+        "request": ">=2.9.0"
+    },
+    "license": "BSD"
+}
