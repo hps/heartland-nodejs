@@ -2,22 +2,23 @@
 
 var fs = require('fs'),
     config = require('nconf'),
+    assert = require('assert'),
     HpsBatchService = require('../lib/services/hps-batch-service').HpsBatchService;
 
 if (fs.statSync('./test/config.json')) {
     config.file({file: './test/config.json'});
 }
 
-exports.valid_config = {
+exports.batch_valid_config = {
     setUp: function (callback) {
         this.hpsBatchService = new HpsBatchService(config.get('validServicesConfig'), config.get('testUri'));
         callback();
     },
-    closeBatch: function (test) {
+    closeBatch: function (done) {
         this.hpsBatchService.closeBatch(function (err, result) {
-            test.notEqual(result, undefined, 'The result should be something.');
-            test.equals(err, null, 'Should not return an error.');
-            test.done();
+            assert.notEqual(result, undefined, 'The result should be something.');
+            assert.equal(err, null, 'Should not return an error.');
+            done();
         });
     }
 };
