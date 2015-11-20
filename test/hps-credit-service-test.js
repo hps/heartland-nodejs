@@ -11,7 +11,7 @@ if (fs.statSync('./test/config.json')) {
 }
 
 function getToken(card, callback) {
-  var url = 'https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.Hpf.v1/api/token' +
+  var url = 'https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway.Hpf.v1/api/token' +
             '?token_type=supt' +
             '&object=token' +
             '&_method=post' +
