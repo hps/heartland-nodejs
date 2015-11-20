@@ -2115,10 +2115,10 @@
     <!--</wsdl:types>-->
     <wsdl:service name="PosGatewayService">
         <wsdl:port name="PosGatewayInterface" binding="i0:PosGatewayInterface">
-            <soap:address location="https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx"/>
+            <soap:address location="https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx"/>
         </wsdl:port>
         <wsdl:port name="PosGatewayInterface1" binding="i0:PosGatewayInterface1">
-            <soap12:address location="https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx"/>
+            <soap12:address location="https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>

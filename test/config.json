@@ -1,6 +1,6 @@
 {
-    "testUri": "https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway/PosGatewayService.asmx",
-    "certUri": "https://posgateway.cert.secureexchange.net/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx",
+    "testUri": "https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway/PosGatewayService.asmx",
+    "certUri": "https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway.UAT/PosGatewayService.asmx",
     "validServicesConfig": {
         "secretApiKey": "skapi_cert_MTyMAQBiHVEAewvIzXVFcmUd2UcyBge_eCpaASUp0A",
         "publicApiKey": "pkapi_cert_jKc1FtuyAydZhZfbB3",
