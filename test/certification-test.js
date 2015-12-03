@@ -16,13 +16,6 @@ exports.certification_valid_config = {
         this.hpsCreditService = new HpsCreditService(config.get('validServicesConfig'), config.get('testUri'));
         callback();
     },
-    closeBatch: function (done) {
-        this.hpsBatchService.closeBatch(function (err, result) {
-            assert.notEqual(result, undefined, 'The result should be something.');
-            assert.equal(err, null, 'Should not return an error.');
-            done();
-        });
-    },
     chargeVisa: function (done) {
         this.hpsCreditService.chargeWithCard(17.01, 'usd', config.get('validVisa'),
             config.get('certCardHolderShortZip'), false, null, function (err, result) {
@@ -96,5 +89,12 @@ exports.certification_valid_config = {
                 assert.notEqual(reverseResult.transactionId, undefined, 'The response transaction ID should not be undefined.');
                 done();
             });
+    },
+    closeBatch: function (done) {
+        this.hpsBatchService.closeBatch(function (err, result) {
+            assert.notEqual(result, undefined, 'The result should be something.');
+            assert.equal(err, null, 'Should not return an error.');
+            done();
+        });
     }
 };
