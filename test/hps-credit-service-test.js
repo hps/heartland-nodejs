@@ -4,6 +4,7 @@ var fs = require('fs'),
     config = require('nconf'),
     assert = require('assert'),
     HpsCreditService = require('../lib/services/hps-credit-service').HpsCreditService,
+    HpsReportService = require('../lib/services/hps-report-service').HpsReportService,
     https = require('https');
 
 if (fs.statSync('./test/config.json')) {
@@ -36,19 +37,20 @@ function getToken(card, callback) {
 exports.credit_valid_config = {
     setUp: function (callback) {
         this.hpsCreditService = new HpsCreditService(config.get('validServicesConfig'), config.get('testUri'));
+        this.hpsReportService = new HpsReportService(config.get('validServicesConfig'), config.get('testUri'));
         callback();
     },
     list_between_today_and_yesterday: function (done) {
         var startDate = new Date(), endDate = new Date();
         startDate.setDate(startDate.getDate() - 1);
-        this.hpsCreditService.list(startDate.toISOString(), endDate.toISOString(), null, function (err, result) {
+        this.hpsReportService.list(startDate.toISOString(), endDate.toISOString(), null, function (err, result) {
             assert.notEqual(result.length, 0, 'The result should be an array with length > 0.');
             assert.equal(err, null, 'Should not return an error.');
             done();
         });
     },
     get_with_bad_id: function (done) {
-        this.hpsCreditService.get(12345, function (err, result) {
+        this.hpsReportService.get(12345, function (err, result) {
             assert.equal(result, null, 'The result should be null.');
             assert.equal(err.message, 'Report criteria did not produce any results.', 'Should get the correct error message.');
             done();
@@ -57,8 +59,8 @@ exports.credit_valid_config = {
     get_with_good_id: function (done) {
         var startDate = new Date(), endDate = new Date(), that = this;
         startDate.setDate(startDate.getDate() - 1);
-        this.hpsCreditService.list(startDate.toISOString(), endDate.toISOString(), null, function (err, result) {
-            that.hpsCreditService.get(result[0].transactionId, function (err, result) {
+        this.hpsReportService.list(startDate.toISOString(), endDate.toISOString(), null, function (err, result) {
+            that.hpsReportService.get(result[0].transactionId, function (err, result) {
                 assert.notEqual(result, null, 'The result should not be null.');
                 done();
             });
@@ -161,13 +163,13 @@ exports.credit_valid_config = {
 
 exports.credit_invalid_config = {
     setUp: function (callback) {
-        this.hpsCreditService = new HpsCreditService(config.get('invalidServicesConfig'));
+        this.hpsReportService = new HpsReportService(config.get('invalidServicesConfig'));
         callback();
     },
     list_between_today_and_yesterday: function (done) {
         var startDate = new Date(), endDate = new Date();
         startDate.setDate(startDate.getDate() - 1);
-        this.hpsCreditService.list(startDate.toISOString(), endDate.toISOString(), null, function (err, result) {
+        this.hpsReportService.list(startDate.toISOString(), endDate.toISOString(), null, function (err, result) {
             assert.notEqual(err.message, null, 'An error should be thrown indicating an authentication problem.');
             done();
         });
