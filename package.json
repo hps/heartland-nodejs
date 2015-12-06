@@ -16,7 +16,8 @@
   "author": "Heartland Payment Systems",
   "dependencies": {
     "node-expat": ">=1.6.1",
-    "request": ">=2.9.0"
+    "request": ">=2.9.0",
+    "tv4": "~1.2.7"
   },
   "devDependencies": {
     "mocha": "^2.3.3",
