@@ -18,7 +18,7 @@ var heartland = require('portico-sdk'),
 		        developerId: 	'123456',
 		        siteTrace: 		'trace0001'
 		    },
-    uri = 'https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway/PosGatewayService.asmx';
+    uri = 'https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway/PosGatewayService.asmx',
     secureSubmit = new heartland.SecureSubmit(config, uri),
     porticoReport = new heartland.PorticoReport(config, uri);
 

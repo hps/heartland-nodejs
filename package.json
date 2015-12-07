@@ -1,7 +1,7 @@
 {
   "name": "portico-sdk-jsuiker",
   "version": "1.0.2",
-  "description": "Portico NodeJS SDK",
+  "description": "Heartland Payment Systems Portico SDK for NodeJS",
   "main": "index.js",
   "directories": {
     "test": "test"
