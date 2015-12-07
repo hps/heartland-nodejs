@@ -8,6 +8,7 @@ to be populated
 
 ## Usage
 
+```
 var SecureSubmit = require('heartand-node').SecureSubmit,
 	config = {
 		        secretApiKey: 	'skapi_cert_MTyMAQBiHVEAewvIzXVFcmUd2UcyBge_eCpaASUp0A',
@@ -20,7 +21,7 @@ var SecureSubmit = require('heartand-node').SecureSubmit,
     secureSubmit = new SecureSubmit(config, uri);
 
 secureSubmit.chargeWithCard(amount, currency, card, cardHolder, requestMultiUseToken, memo, callback);
-
+```
 
 
 Supported Gateway Calls
