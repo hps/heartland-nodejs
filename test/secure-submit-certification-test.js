@@ -3,7 +3,6 @@
 var fs              = require('fs'),
     config          = require('nconf'),
     assert          = require('assert'),
-    PorticoGateway  = require('../lib/infrastructure/portico-gateway'),
     SecureSubmit    = require('../lib/services/secure-submit');
 
 if (fs.statSync('./test/config.json')) {
@@ -12,8 +11,7 @@ if (fs.statSync('./test/config.json')) {
 
 exports.certification_valid_config = {
     setUp: function (callback) {
-        this.porticoGateway = new PorticoGateway(config.get('validServicesConfig'), config.get('testUri'));
-        this.secureSubmit   = new SecureSubmit(porticoGateway);
+        this.secureSubmit   = new SecureSubmit(config.get('validServicesConfig'), config.get('testUri'));
         callback();
     },
     chargeVisa: function (done) {

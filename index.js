@@ -1,3 +1,6 @@
 'use strict';
 
-module.exports = require('./lib/services/hps-credit-service');
+module.exports = {
+	SecureSubmit: require('./lib/services/secure-submit'),
+	PorticoReport: require('./lib/services/portico-report')
+};
