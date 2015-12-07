@@ -4,12 +4,13 @@ This node.js SDK makes it easy to process payments against the Heartland Payment
 
 ## Installation
 
-`npm install heartland-node`
+`npm install portico-sdk`
 
 ## Usage
 
 ```javascript
-var heartland = require('heartland-node'),
+
+var heartland = require('portico-sdk'),
 	config = {
 		        secretApiKey: 	'skapi_cert_MTyMAQBiHVEAewvIzXVFcmUd2UcyBge_eCpaASUp0A',
 		        publicApiKey: 	'pkapi_cert_jKc1FtuyAydZhZfbB3',
