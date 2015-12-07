@@ -4,12 +4,12 @@ This node.js SDK makes it easy to process payments against the Heartland Payment
 
 ## Installation
 
-to be populated
+`npm install heartland-node`
 
 ## Usage
 
 ```
-var SecureSubmit = require('heartand-node').SecureSubmit,
+var heartland = require('heartand-node'),
 	config = {
 		        secretApiKey: 	'skapi_cert_MTyMAQBiHVEAewvIzXVFcmUd2UcyBge_eCpaASUp0A',
 		        publicApiKey: 	'pkapi_cert_jKc1FtuyAydZhZfbB3',
@@ -18,23 +18,40 @@ var SecureSubmit = require('heartand-node').SecureSubmit,
 		        siteTrace: 		'trace0001'
 		    },
     uri = 'https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway/PosGatewayService.asmx';
-    secureSubmit = new SecureSubmit(config, uri);
+    secureSubmit = new heartland.SecureSubmit(config, uri),
+    porticoReport = new heartland.PorticoReport(config, uri);
 
 secureSubmit.chargeWithCard(amount, currency, card, cardHolder, requestMultiUseToken, memo, callback);
+porticoReport.reportTxnDetail(transactionId, callback);
 ```
 
 
-Supported Gateway Calls
+### Implemented Package Functions
 
-CreditAccountVerify (4.3)
-CreditAddToBatch (4.4)
-CreditAuth (4.5)
-CreditReturn (4.9)
-CreditReversal (4.10)
-CreditSale (4.11) 
-ReportActivity (10.4)
-ReportTxnDetail (10.8)
-BatchClose (10.3)
+#### SecureSubmit
+
+* chargeWithCard
+* chargeWithToken
+* authorizeWithCard
+* authorizeWithToken
+* verifyWithCard
+* verifyWithToken
+* capture
+* refundWithCard
+* refundWithTransactionId
+* reverseWithCard
+* reverseWithTransactionId
+* closeBatch
+* get
+* list
+
+#### PorticoReport
+
+* reportBatchDetail
+* reportBatchHistory
+* reportBatchSummary
+* reportOpenAuths
+* reportTxnDetail
 
 ## Contributing
 
