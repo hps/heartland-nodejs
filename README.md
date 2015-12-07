@@ -10,7 +10,7 @@ This node.js SDK makes it easy to process payments against the Heartland Payment
 
 ```javascript
 
-var heartland = require('portico-sdk'),
+var portico = require('portico-sdk'),
 	config = {
 		        secretApiKey: 	'skapi_cert_MTyMAQBiHVEAewvIzXVFcmUd2UcyBge_eCpaASUp0A',
 		        publicApiKey: 	'pkapi_cert_jKc1FtuyAydZhZfbB3',
@@ -19,8 +19,8 @@ var heartland = require('portico-sdk'),
 		        siteTrace: 		'trace0001'
 		    },
     uri = 'https://cert.api2.heartlandportico.com/Hps.Exchange.PosGateway/PosGatewayService.asmx',
-    secureSubmit = new heartland.SecureSubmit(config, uri),
-    porticoReport = new heartland.PorticoReport(config, uri);
+    secureSubmit = new portico.SecureSubmit(config, uri),
+    porticoReport = new portico.PorticoReport(config, uri);
 
 // Charging a credit card via the SecureSubmit API...
 secureSubmit.chargeWithCard(amount, currency, card, cardHolder, requestMultiUseToken, memo, callback);

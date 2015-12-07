@@ -1,5 +1,5 @@
 {
-  "name": "portico-sdk-jsuiker",
+  "name": "portico-sdk",
   "version": "1.0.2",
   "description": "Heartland Payment Systems Portico SDK for NodeJS",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jsuiker/heartland-nodejs.git#revamp"
+    "url": "https://github.com/hps/heartland-nodejs.git"
   },
   "author": "Heartland Payment Systems",
   "dependencies": {
