@@ -1,4 +1,4 @@
-## Hps
+## Heartland Payment Systems Portico SDK for NodeJS
 
 This node.js SDK makes it easy to process payments against the Heartland Payment Systems Gateway.  It integrates the [SecureSubmit](https://developer.heartlandpaymentsystems.com/SecureSubmit/Documentation) functionality as well as providing direct access to the Portico gateway functionality.
 
