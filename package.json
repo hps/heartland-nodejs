@@ -1,6 +1,6 @@
 {
   "name": "portico-sdk",
-  "version": "1.0.2",
+  "version": "0.1.1",
   "description": "Heartland Payment Systems Portico SDK for NodeJS",
   "main": "index.js",
   "directories": {
