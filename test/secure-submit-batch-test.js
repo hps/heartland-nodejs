@@ -1,9 +1,9 @@
 'use strict';
 
-var fs = require('fs'),
-    config = require('nconf'),
-    assert = require('assert'),
-    HpsBatchService = require('../lib/services/hps-batch-service').HpsBatchService;
+var fs               = require('fs'),
+    config           = require('nconf'),
+    assert           = require('assert'),
+    HpsBatchService  = require('../lib/services/secure-submit/hps-batch-service');
 
 if (fs.statSync('./test/config.json')) {
     config.file({file: './test/config.json'});

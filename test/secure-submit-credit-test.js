@@ -1,10 +1,11 @@
 'use strict';
 
-var fs = require('fs'),
-    config = require('nconf'),
-    assert = require('assert'),
-    HpsCreditService = require('../lib/services/hps-credit-service').HpsCreditService,
-    https = require('https');
+var fs               = require('fs'),
+    config           = require('nconf'),
+    assert           = require('assert'),
+    util             = require('util'),
+    https            = require('https'),
+    HpsCreditService = require('../lib/services/secure-submit/hps-credit-service');
 
 if (fs.statSync('./test/config.json')) {
     config.file({file: './test/config.json'});
@@ -35,13 +36,14 @@ function getToken(card, callback) {
 
 exports.credit_valid_config = {
     setUp: function (callback) {
-        this.hpsCreditService = new HpsCreditService(config.get('validServicesConfig'), config.get('testUri'));
+        this.hpsCreditService   = new HpsCreditService(config.get('validServicesConfig'), config.get('testUri'));
         callback();
     },
     list_between_today_and_yesterday: function (done) {
         var startDate = new Date(), endDate = new Date();
         startDate.setDate(startDate.getDate() - 1);
         this.hpsCreditService.list(startDate.toISOString(), endDate.toISOString(), null, function (err, result) {
+            if (err) return done(err);
             assert.notEqual(result.length, 0, 'The result should be an array with length > 0.');
             assert.equal(err, null, 'Should not return an error.');
             done();
@@ -58,7 +60,8 @@ exports.credit_valid_config = {
         var startDate = new Date(), endDate = new Date(), that = this;
         startDate.setDate(startDate.getDate() - 1);
         this.hpsCreditService.list(startDate.toISOString(), endDate.toISOString(), null, function (err, result) {
-            that.hpsCreditService.get(result[0].transactionId, function (err, result) {
+            that.hpsCreditService.get(Number(result[0].transactionId), function (err, result) {
+                if (err) return done(err);
                 assert.notEqual(result, null, 'The result should not be null.');
                 done();
             });
@@ -67,16 +70,29 @@ exports.credit_valid_config = {
     chargeWithValidVisa: function (done) {
         this.hpsCreditService.chargeWithCard(10.00, 'usd', config.get('validVisa'),
             config.get('validCardHolder'), false, null, function (err, result) {
-                assert.equal(result.responseCode, '00', 'The response code should be "00".');
+                if (err) return done(err);
+                else assert.equal(result.responseCode, '00', 'The response code should be "00".');
                 done();
             });
     },
     chargeWithValidMasterCard: function (done) {
         this.hpsCreditService.chargeWithCard(10.00, 'usd', config.get('validMasterCard'),
             config.get('validCardHolder'), false, null, function (err, result) {
-                assert.equal(result.responseCode, '00', 'The response code should be "00".');
+                if (err) return done(err);
+                else assert.equal(result.responseCode, '00', 'The response code should be "00".');
                 done();
             });
+    },
+    chargeWithValidMasterCardToken: function (done) {
+        var that = this;
+        getToken(config.get('validMasterCard'), function (token) {
+            that.hpsCreditService.chargeWithToken(10.00, 'usd', token.token_value,
+                config.get('validCardHolder'), false, null, function (err, result) {
+                    if (err) return done(err);
+                    else assert.equal(result.responseCode, '00', 'The response code should be "00".');
+                    done();
+                });
+        });
     },
     authorizeWithValidMasterCard: function (done) {
         this.hpsCreditService.authorizeWithCard(10.00, 'usd', config.get('validMasterCard'),
@@ -161,7 +177,7 @@ exports.credit_valid_config = {
 
 exports.credit_invalid_config = {
     setUp: function (callback) {
-        this.hpsCreditService = new HpsCreditService(config.get('invalidServicesConfig'));
+        this.hpsCreditService   = new HpsCreditService(config.get('invalidServicesConfig'));
         callback();
     },
     list_between_today_and_yesterday: function (done) {

@@ -1,10 +1,10 @@
 'use strict';
 
-var fs = require('fs'),
-    config = require('nconf'),
-    assert = require('assert'),
-    HpsBatchService = require('../lib/services/hps-batch-service').HpsBatchService,
-    HpsCreditService = require('../lib/services/hps-credit-service').HpsCreditService;
+var fs               = require('fs'),
+    config           = require('nconf'),
+    assert           = require('assert'),
+    HpsCreditService = require('../lib/services/secure-submit/hps-credit-service'),
+    HpsBatchService  = require('../lib/services/secure-submit/hps-batch-service');
 
 if (fs.statSync('./test/config.json')) {
     config.file({file: './test/config.json'});
@@ -12,16 +12,9 @@ if (fs.statSync('./test/config.json')) {
 
 exports.certification_valid_config = {
     setUp: function (callback) {
-        this.hpsBatchService = new HpsBatchService(config.get('validServicesConfig'), config.get('testUri'));
         this.hpsCreditService = new HpsCreditService(config.get('validServicesConfig'), config.get('testUri'));
+        this.hpsBatchService = new HpsBatchService(config.get('validServicesConfig'), config.get('testUri'));
         callback();
-    },
-    closeBatch: function (done) {
-        this.hpsBatchService.closeBatch(function (err, result) {
-            assert.notEqual(result, undefined, 'The result should be something.');
-            assert.equal(err, null, 'Should not return an error.');
-            done();
-        });
     },
     chargeVisa: function (done) {
         this.hpsCreditService.chargeWithCard(17.01, 'usd', config.get('validVisa'),
@@ -96,5 +89,12 @@ exports.certification_valid_config = {
                 assert.notEqual(reverseResult.transactionId, undefined, 'The response transaction ID should not be undefined.');
                 done();
             });
+    },
+    closeBatch: function (done) {
+        this.hpsBatchService.closeBatch(function (err, result) {
+            assert.notEqual(result, undefined, 'The result should be something.');
+            assert.equal(err, null, 'Should not return an error.');
+            done();
+        });
     }
 };
