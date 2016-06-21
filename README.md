@@ -4,7 +4,9 @@ This node.js SDK makes it easy to process payments against the Heartland Payment
 
 ## Installation
 
-`npm install portico-sdk`
+```
+npm install heartland-nodejs
+```
 
 ## Usage
 

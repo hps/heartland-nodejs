@@ -1,5 +1,5 @@
 {
-  "name": "portico-sdk",
+  "name": "heartland-nodejs",
   "version": "0.1.1",
   "description": "Heartland Payment Systems Portico SDK for NodeJS",
   "main": "index.js",
@@ -30,5 +30,5 @@
     "mocha": "^2.3.3",
     "nconf": "^0.8.2"
   },
-  "license": "BSD"
+  "license": "Custom"
 }
