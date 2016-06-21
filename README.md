@@ -11,8 +11,7 @@ npm install heartland-nodejs
 ## Usage
 
 ```javascript
-
-var heartland = require('portico-sdk'),
+var heartland = require('heartland-sdk'),
     config = {
                 secretApiKey:   'skapi_cert_MTyMAQBiHVEAewvIzXVFcmUd2UcyBge_eCpaASUp0A',
                 publicApiKey:   'pkapi_cert_jKc1FtuyAydZhZfbB3',
@@ -29,7 +28,6 @@ hpsCreditService.chargeWithCard(amount, currency, card, cardHolder, requestMulti
 
 // Access the ReportTxnDetail endpoing directly...
 porticoReport.reportTxnDetail(transactionId, callback);
-
 ```
 
 ## Implemented Functionality
