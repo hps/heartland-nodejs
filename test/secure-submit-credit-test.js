@@ -101,6 +101,42 @@ exports.credit_valid_config = {
                 done();
             });
     },
+    updateTokenExpirationWithValidToken: function (done) {
+        var that = this;
+        getToken(config.get('validVisa'), function (data) {
+            that.hpsCreditService.verifyWithToken(data.token_value,
+                config.get('validCardHolder'), true, function (err, result) {
+                    assert.equal(result.responseCode, '85', 'The response code should be "85".');
+                    assert.notEqual(result.tokenData, null, 'Multi-use tokenData not available.');
+                    assert.notEqual(result.tokenData.tokenValue, null, 'Multi-use tokenData null.');
+                    assert.notEqual(result.tokenData.tokenValue, '', 'Multi-use tokenData empty.');
+                    var dDate = new Date();
+                    that.hpsCreditService.updateTokenExpiration(result.tokenData.tokenValue,11, dDate.getFullYear() + 1,function (err, result) {
+                        assert.equal(result.responseCode, '0', 'The response code should be "0".');
+                        done();
+                    });
+                });
+        });
+    },
+    updateTokenExpirationWithValidTokenInvalidMonth: function (done) {
+        var that = this;
+        getToken(config.get('validVisa'), function (data) {
+            that.hpsCreditService.verifyWithToken(data.token_value,
+                config.get('validCardHolder'), true, function (err, result) {
+                    assert.equal(result.responseCode, '85', 'The response code should be "85".');
+                    assert.notEqual(result.tokenData, null, 'Multi-use tokenData not available.');
+                    assert.notEqual(result.tokenData.tokenValue, null, 'Multi-use tokenData null.');
+                    assert.notEqual(result.tokenData.tokenValue, '', 'Multi-use tokenData empty.');
+                    var dDate = new Date();
+                    that.hpsCreditService.updateTokenExpiration(result.tokenData.tokenValue,21, dDate.getFullYear() + 1,function (err, result) {
+                        assert.notEqual(err,null,"Expected error 'Transaction rejected because the provided data was invalid. Client requested invalid ExpMonth: 21'");
+                        assert.equal(result, null, 'Unexpected Result');
+                        //assert.equal(result.responseCode, '0', 'The response code should be "0".');
+                        done();
+                    });
+                });
+        });
+    },
     verifyWithValidMasterCard: function (done) {
         this.hpsCreditService.verifyWithCard(config.get('validMasterCard'),
             config.get('validCardHolder'), false, function (err, result) {
