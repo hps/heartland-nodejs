@@ -113,6 +113,7 @@ exports.credit_valid_config = {
                     var dDate = new Date();
                     that.hpsCreditService.updateTokenExpiration(result.tokenData.tokenValue,11, dDate.getFullYear() + 1,function (err, result) {
                         assert.equal(result.responseCode, '0', 'The response code should be "0".');
+                        assert.equal(typeof result.exceptions,"undefined","Exception not expected in result");
                         done();
                     });
                 });
@@ -131,7 +132,6 @@ exports.credit_valid_config = {
                     that.hpsCreditService.updateTokenExpiration(result.tokenData.tokenValue,21, dDate.getFullYear() + 1,function (err, result) {
                         assert.notEqual(err,null,"Expected error 'Transaction rejected because the provided data was invalid. Client requested invalid ExpMonth: 21'");
                         assert.equal(result, null, 'Unexpected Result');
-                        //assert.equal(result.responseCode, '0', 'The response code should be "0".');
                         done();
                     });
                 });
