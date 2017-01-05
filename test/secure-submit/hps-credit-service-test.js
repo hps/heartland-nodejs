@@ -1,11 +1,12 @@
 'use strict';
 
-var fs               = require('fs'),
+var _                = require('lodash'),
+    fs               = require('fs'),
     config           = require('nconf'),
     assert           = require('assert'),
     util             = require('util'),
     https            = require('https'),
-    HpsCreditService = require('../lib/services/secure-submit/hps-credit-service');
+    HpsCreditService = require('../../lib/services/secure-submit/hps-credit-service');
 
 if (fs.statSync('./test/config.json')) {
     config.file({file: './test/config.json'});
@@ -63,6 +64,7 @@ exports.credit_valid_config = {
             that.hpsCreditService.get(Number(result[0].transactionId), function (err, result) {
                 if (err) return done(err);
                 assert.notEqual(result, null, 'The result should not be null.');
+                result.exceptions && assert.equal(result.exceptions.hpsException, null, 'unexpected gateway exception');
                 done();
             });
         });
@@ -71,7 +73,7 @@ exports.credit_valid_config = {
         this.hpsCreditService.chargeWithCard(10.00, 'usd', config.get('validVisa'),
             config.get('validCardHolder'), false, null, function (err, result) {
                 if (err) return done(err);
-                else assert.equal(result.responseCode, '00', 'The response code should be "00".');
+                assert.equal(result.responseCode, '00', 'The response code should be "00".');
                 done();
             });
     },
@@ -79,7 +81,7 @@ exports.credit_valid_config = {
         this.hpsCreditService.chargeWithCard(10.00, 'usd', config.get('validMasterCard'),
             config.get('validCardHolder'), false, null, function (err, result) {
                 if (err) return done(err);
-                else assert.equal(result.responseCode, '00', 'The response code should be "00".');
+                assert.equal(result.responseCode, '00', 'The response code should be "00".');
                 done();
             });
     },
@@ -89,7 +91,7 @@ exports.credit_valid_config = {
             that.hpsCreditService.chargeWithToken(10.00, 'usd', token.token_value,
                 config.get('validCardHolder'), false, null, function (err, result) {
                     if (err) return done(err);
-                    else assert.equal(result.responseCode, '00', 'The response code should be "00".');
+                    assert.equal(result.responseCode, '00', 'The response code should be "00".');
                     done();
                 });
         });
@@ -138,6 +140,7 @@ exports.credit_valid_config = {
                 assert.equal(result.responseCode, '00', 'The response code should be "00".');
                 that.hpsCreditService.capture(result.transactionId, null, function (err, result) {
                     assert.equal(result.responseCode, '00', 'The response code should be "00".');
+                    result.exceptions && assert.equal(result.exceptions.hpsException, null, 'unexpected gateway exception');
                     done();
                 });
             });
@@ -172,6 +175,47 @@ exports.credit_valid_config = {
                         done();
                     });
             });
+    },
+    updateTokenExpirationWithValidToken: function (done) {
+        var that = this;
+        getToken(config.get('validVisa'), function (data) {
+            that.hpsCreditService.verifyWithToken(data.token_value,
+                config.get('validCardHolder'), true, function (err, result) {
+                    assert.equal(err, null, 'The error argument should be null');
+                    assert.equal(result.responseCode, '85', 'The response code should be "85".');
+                    assert.notEqual(result.tokenData, null, 'TokenData not available.');
+                    assert.ok(result.tokenData.tokenValue, 'TokenValue not available.');
+
+                    var date = new Date();
+                    that.hpsCreditService.updateTokenExpiration(result.tokenData.tokenValue, 11,
+                        date.getFullYear() + 1, function (updateErr, updateResult) {
+                            assert.equal(updateErr, null, 'The error argument should be null.');
+                            assert.equal(updateResult.responseCode, '0', 'The response code should be "0".');
+                            assert.equal(typeof updateResult.exceptions, 'undefined', 'Unexpected exception thrown');
+                            done();
+                        });
+                });
+        });
+    },
+    updateTokenExpirationWithValidTokenInvalidMonth: function (done) {
+        var that = this;
+        getToken(config.get('validVisa'), function (data) {
+            that.hpsCreditService.verifyWithToken(data.token_value,
+                config.get('validCardHolder'), true, function (err, result) {
+                    assert.equal(err, null, 'The error argument should be null');
+                    assert.equal(result.responseCode, '85', 'The response code should be "85".');
+                    assert.notEqual(result.tokenData, null, 'TokenData not available.');
+                    assert.ok(result.tokenData.tokenValue, 'TokenValue not available.');
+
+                    var date = new Date();
+                    that.hpsCreditService.updateTokenExpiration(result.tokenData.tokenValue, 21,
+                        date.getFullYear() + 1, function (updateErr, updateResult) {
+                            assert.notEqual(updateErr, null, 'The error argument should not be null.');
+                            assert.equal(updateResult, null, 'The response should be null.');
+                            done();
+                        });
+                });
+        });
     }
 };
 
@@ -188,4 +232,24 @@ exports.credit_invalid_config = {
             done();
         });
     }
+};
+
+exports.secret_key_trimming = {
+  setUp: function (callback) {
+    var _config = _.assign(config.get('validServicesConfig'),
+      {secretApiKey: ' skapi_cert_MTyMAQBiHVEAewvIzXVFcmUd2UcyBge_eCpaASUp0A '});
+
+    this.hpsCreditService   = new HpsCreditService(_config, config.get('testUri'));
+    callback();
+  },
+  list_between_today_and_yesterday: function (done) {
+    var startDate = new Date(), endDate = new Date();
+    startDate.setDate(startDate.getDate() - 1);
+    this.hpsCreditService.list(startDate.toISOString(), endDate.toISOString(), null, function (err, result) {
+      if (err) return done(err);
+      assert.notEqual(result.length, 0, 'The result should be an array with length > 0.');
+      assert.equal(err, null, 'Should not return an error.');
+      done();
+    });
+  }
 };
