@@ -14,34 +14,42 @@
         "developerId": "123456",
         "siteTrace": "trace0001"
     },
+    "validActivationServiceConfig": {
+        "serviceUri": "https://huds.test.e-hps.com/config-server/v1/"
+    },
+    "validPayPlanConfig": {
+        "secretApiKey": "skapi_cert_MTyMAQBiHVEAewvIzXVFcmUd2UcyBge_eCpaASUp0A",
+        "publicApiKey": "pkapi_cert_jKc1FtuyAydZhZfbB3",
+        "serviceUri": "https://cert.api2.heartlandportico.com/Portico.PayPlan.v2"
+    },
     "validVisa": {
         "cvv": 123,
         "expMonth": 12,
-        "expYear": 2015,
+        "expYear": 2025,
         "number": "4012002000060016"
     },
     "validMasterCard": {
         "cvv": 123,
         "expMonth": 12,
-        "expYear": 2015,
+        "expYear": 2025,
         "number": "5473500000000014"
     },
     "validDiscover": {
         "cvv": 123,
         "expMonth": 12,
-        "expYear": 2015,
+        "expYear": 2025,
         "number": "6011000990156527"
     },
     "validAmex": {
         "cvv": 1234,
         "expMonth": 12,
-        "expYear": 2015,
+        "expYear": 2025,
         "number": "372700699251018"
     },
     "validJcb": {
         "cvv": 123,
         "expMonth": 12,
-        "expYear": 2015,
+        "expYear": 2025,
         "number": "3566007770007321"
     },
     "validCardHolder":  {
