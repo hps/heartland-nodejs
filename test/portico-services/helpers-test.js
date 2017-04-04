@@ -73,9 +73,9 @@ var requestTypes = [
   'CreditReturn',
   'CreditReversal',
   'ReportActivity',
-  //'ReportBatchDetail',
-  //'ReportBatchHistory',
-  //'ReportBatchSummary',
+  'ReportBatchDetail',
+  'ReportBatchHistory',
+  'ReportBatchSummary',
   //'ReportOpenAuths',
   'ReportTxnDetail',
   'ManageTokens'
