@@ -17,12 +17,12 @@ exports.isEmptyObject = {
 
   onNotObject: function() {
     var rc = helpers.isEmptyObject('');
-    assert.equal(rc,true,'\'\' should return true');
+    assert.equal(rc,false,'\'\' should return false');
   },
 
   onString: function(){
     var rc = helpers.isEmptyObject(' ');
-    assert.equal(rc,true,'\' \' should return true');
+    assert.equal(rc,false,'\' \' should return false');
   },
 
   onNotEmpty: function(){
