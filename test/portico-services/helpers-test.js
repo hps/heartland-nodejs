@@ -49,7 +49,7 @@ exports.validateRequestTypes = {
     requestTypes.map(rt=>{
       var rc = helpers.serviceNameToTransactionType(rt);
       var rc2 = helpers.transactionTypeToServiceName(rc);
-      assert.notEqual(rc,null,rt + ' should be a valid Service Name');
+      assert.notEqual(rc2,null,rt + ' should be a valid Service Name');
       assert.equal(rt,rc2, rt + ' should be the same as ' + rc2);
     });
   }
