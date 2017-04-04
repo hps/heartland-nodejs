@@ -36,6 +36,7 @@ exports.validateRequestTypes = {
     requestTypes.map(rt=>{
       var rc = schema.requestType(rt);
       assert.equal(helpers.isEmptyObject(rc),false, rt + ' should be a valid type');
+      assert.equal(isRequestObject(rc),true, rt + ' should be a valid request object');
     });
   },
   validTransactions: function(){
@@ -58,7 +59,7 @@ exports.validateRequestTypes = {
 function isRequestObject(o){
   var rc = false;
   if (!helpers.isEmptyObject(o)){
-    if (o.type==='object'&&!isEmptyObject(o.properties)){
+    if (o.type==='object'&&!helpers.isEmptyObject(o.properties)){
       rc = true;
     }
   }
