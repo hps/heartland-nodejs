@@ -1,6 +1,7 @@
 'use strict';
 
 var assert   = require('assert'),
+    schema   = require('../../lib/infrastructure/validation/portico-schema'),
     helpers  = require('../../lib/infrastructure/helpers');
 
 exports.isEmptyObject = {
@@ -29,3 +30,53 @@ exports.isEmptyObject = {
     assert.equal(rc,false,'{x:0} should return false');
   }
 };
+
+exports.validateRequestTypes = {
+  validObjects: function(){
+    requestTypes.map(rt=>{
+      var rc = schema.requestType(rt);
+      assert.equal(helpers.isEmptyObject(rc),false, rt + ' should be a valid type');
+    });
+  },
+  validTransactions: function(){
+    requestTypes.map(rt=>{
+      var rc = helpers.serviceNameToTransactionType(rt);
+      assert.notEqual(rc,null, rt + ' should have a Transaction Type');
+    });
+  },
+
+  validServiceNames: function(){
+    requestTypes.map(rt=>{
+      var rc = helpers.serviceNameToTransactionType(rt);
+      var rc2 = helpers.transactionTypeToServiceName(rc);
+      assert.notEqual(rc,null,rt + ' should be a valid Service Name');
+      assert.equal(rt,rc2, rt + ' should be the same as ' + rc2);
+    });
+  }
+};
+
+function isRequestObject(o){
+  var rc = false;
+  if (!helpers.isEmptyObject(o)){
+    if (o.type==='object'&&!isEmptyObject(o.properties)){
+      rc = true;
+    }
+  }
+  return rc;
+}
+
+var requestTypes = [
+  'CreditSale',
+  'CreditAuth',
+  'CreditAccountVerify',
+  'CreditAddToBatch',
+  'CreditReturn',
+  'CreditReversal',
+  'ReportActivity',
+  //'ReportBatchDetail',
+  //'ReportBatchHistory',
+  //'ReportBatchSummary',
+  //'ReportOpenAuths',
+  'ReportTxnDetail',
+  'ManageTokens'
+]
