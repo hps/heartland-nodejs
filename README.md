@@ -236,6 +236,3 @@ All our code is open sourced and we encourage fellow developers to contribute an
 #### Included Test Suite
 
 The included test suite can help ensure your contribution doesn't cause unexpected errors and is a terrific resource of working examples that you can reference. As mentioned earlier, the [certification folder](https://github.com/hps/heartland-nodejs/tree/master/test) contains tests that mirror the types of requirements you will encounter when you certify your integration for production.
-
-
-

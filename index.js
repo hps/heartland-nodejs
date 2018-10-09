@@ -6,7 +6,7 @@ module.exports = {
     HpsBatchService: require('./lib/services/secure-submit/hps-batch-service'),
     // Portico Services...
     PorticoReport: require('./lib/services/portico-services/report-service'),
-    // Enumalte namespaces from other SDKs
+    // Emulate namespaces from other SDKs
     Infrastructure: {
         Enums: require('./lib/infrastructure/enums')
     }
