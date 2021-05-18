@@ -1,6 +1,6 @@
 {
   "name": "heartland-nodejs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Heartland Payment Systems Portico SDK for NodeJS",
   "main": "index.js",
   "directories": {
