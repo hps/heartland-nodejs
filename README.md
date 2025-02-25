@@ -1,3 +1,6 @@
+# ** This repository is no longer maintained! ** 
+Our current node.js SDK <a href="https://github.com/globalpayments/node-sdk" target="_blank">here</a>
+
 <a href="http://developer.heartlandpaymentsystems.com/SecureSubmit" target="_blank">
 	<img src="http://developer.heartlandpaymentsystems.com/Resource/Download/sdk-readme-heartland-logo" alt="Heartland logo" title="Heartland" align="right" />
 </a>
